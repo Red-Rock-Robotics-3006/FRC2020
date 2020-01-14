@@ -10,6 +10,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.DriveTrain;
+import frc.robot.Controller;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +37,22 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  double maxSpeed;
+  double maxPower;
+
+  WPI_TalonFX frontRight, frontLeft, backRight, backLeft;
+
+  Controller driver;
+
+ //Solenoid solenoid = new Solenoid(0);
+
+  List<SpeedController> rightMotorControllers = new ArrayList<SpeedController>();
+  List<SpeedController> leftMotorControllers = new ArrayList<SpeedController>();
+  
+
+  DriveTrain driveTrain;
+ 
+  WPI_TalonFX wpitalonfx;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -33,6 +62,23 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    driver = new Controller(0);
+    frontLeft = new WPI_TalonFX(0);
+    frontRight = new WPI_TalonFX(2);
+    backLeft = new WPI_TalonFX(1);
+    backRight = new WPI_TalonFX(3);
+  
+
+    
+    leftMotorControllers.add(frontLeft);
+    rightMotorControllers.add(frontRight);
+    leftMotorControllers.add(backLeft);
+    rightMotorControllers.add(backRight);
+   
+    driveTrain = new DriveTrain(leftMotorControllers, rightMotorControllers, maxSpeed);
+    driver.setDriveTrain(driveTrain);
+    driver.setMaxDriveSpeed(maxSpeed);
   }
 
   /**
@@ -86,6 +132,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+      driver.tankDrive();
+      
+    
   }
 
   /**
