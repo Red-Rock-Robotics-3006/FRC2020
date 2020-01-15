@@ -38,9 +38,9 @@ public class DriveTrain
             rightGroup = new SpeedControllerGroup(rightMotors.get(0));        
         
         if(leftMotors.size() > 1)
-            leftGroup = new SpeedControllerGroup(leftMotorControllers.get(0), leftMotors.subList(1, leftMotors.size()).toArray(new SpeedController[leftMotors.size()]));
+            leftGroup = new SpeedControllerGroup(leftMotors.get(0), leftMotors.subList(1, leftMotors.size()).toArray(new SpeedController[leftMotors.size()]));
         else
-            leftGroup = new SpeedControllerGroup(leftMotorControllers.get(0));          
+            leftGroup = new SpeedControllerGroup(leftMotors.get(0));          
 
        
 
