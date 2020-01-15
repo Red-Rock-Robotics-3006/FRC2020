@@ -20,27 +20,27 @@ public class DriveTrain
     //creates static variables
    
     private double maxSpeed;
-    private SpeedControllerGroup rightMotors;
-    private SpeedControllerGroup leftMotors;
+    private SpeedControllerGroup rightGroup;
+    private SpeedControllerGroup leftGroup;
 
     /*public DriveTrain(SpeedController... motors) {
         rightMotors = new SpeedControllerGroup();
 
     }*/
 
-    public DriveTrain(List<SpeedController> leftMotorControllers, List<SpeedController> rightMotorControllers, double maxSpeed)
+    public DriveTrain(List<SpeedController> leftMotors, List<SpeedController> rightMotors, double maxSpeed)
     {
         //constructor for drivetrain
         
-        if(rightMotorControllers.size() > 1)
-            rightMotors = new SpeedControllerGroup(rightMotorControllers.get(0), (SpeedController[]) rightMotorControllers.subList(1, rightMotorControllers.size()).toArray());
+        if(rightMotors.size() > 1)
+            rightGroup = new SpeedControllerGroup(rightMotors.get(0), rightMotors.subList(1, rightMotors.size()).toArray(new SpeedController[rightMotors.size()]));
         else
-            rightMotors = new SpeedControllerGroup(rightMotorControllers.get(0));        
+            rightGroup = new SpeedControllerGroup(rightMotors.get(0));        
         
-        if(leftMotorControllers.size() > 1)
-            rightMotors = new SpeedControllerGroup(leftMotorControllers.get(0), (SpeedController[]) leftMotorControllers.subList(1, leftMotorControllers.size()).toArray());
+        if(leftMotors.size() > 1)
+            leftGroup = new SpeedControllerGroup(leftMotorControllers.get(0), leftMotors.subList(1, leftMotors.size()).toArray(new SpeedController[leftMotors.size()]));
         else
-            rightMotors = new SpeedControllerGroup(leftMotorControllers.get(0));          
+            leftGroup = new SpeedControllerGroup(leftMotorControllers.get(0));          
 
        
 
@@ -49,8 +49,8 @@ public class DriveTrain
    
     public void drive(double leftMotorMove, double rightMotorMove)
     {
-        rightMotors.set(rightMotorMove);
-        leftMotors.set(leftMotorMove);
+        rightGroup.set(rightMotorMove);
+        leftGroup.set(leftMotorMove);
        
     }
 
